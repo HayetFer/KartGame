@@ -1,3 +1,4 @@
+
 using System.Numerics;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ public class Camera_Follow : MonoBehaviour
    public float smoothFactor=0.5f;
    public bool lookAtTarget=true;
 
-   void LateUpdate()
+   void FixedUpdate()
    {
         // Calculate the desired position of the camera based on the player's position, distance, and height
         UnityEngine.Vector3 desiredPosition = targetObject.position - targetObject.forward * distance + UnityEngine.Vector3.up * height;
@@ -23,6 +24,7 @@ public class Camera_Follow : MonoBehaviour
         if (lookAtTarget) {
             transform.LookAt(targetObject);
         }
+
    }
 }
 
