@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class Character : MonoBehaviour
 {
     [SerializeField] public float speed = 15.0f;
     [SerializeField] public float rotationSpeed = 50f;
+    public bool isSelected = false;
 
+    public string Thisname;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,10 +18,11 @@ public class Character : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         float translation = Input.GetAxis("Vertical") * speed * Time.deltaTime;
         float rotation = Input.GetAxis("Horizontal") * rotationSpeed * Time.deltaTime;
         transform.Translate(0, 0, translation);
-        transform.Rotate(0, rotation*3, 0);
+        transform.Rotate(0, rotation*2, 0);
         
     }
     IEnumerator OnCollisionEnter(Collision collision)
@@ -35,7 +38,7 @@ public class Character : MonoBehaviour
         {
             Destroy(collision.transform.gameObject);
             float precedentSpeed = speed;
-            speed *= 0;
+            speed *= -2;
             yield return new WaitForSeconds(1f);
             speed =
                 precedentSpeed;
@@ -49,15 +52,12 @@ public class Character : MonoBehaviour
     }
     IEnumerator RotateCharacter()
     {
-        float duration = 1f; // duration of rotation in seconds
-        float anglePerSecond = 360f / duration; // calculate the angle to rotate per second
-        float angleRotated = 0f;
+        float angleRotated = 0;
 
         while (angleRotated < 360f)
         {
-            float angleThisFrame = anglePerSecond * Time.deltaTime;
-            transform.Rotate(Vector3.up, angleThisFrame); // rotate the character around the y-axis
-            angleRotated += angleThisFrame;
+            transform.Rotate(Vector3.up, angleRotated*2); // rotate the character around the y-axis
+            angleRotated ++;
             yield return null; // wait for the next frame
         }
     }
